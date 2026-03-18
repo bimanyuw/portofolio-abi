@@ -13,8 +13,8 @@ import {
   experience,
   itProjects,
   lensTheme,
-} from "@/data/portofolioData";
-import { Lens } from "@/types/portofolio";
+} from "@/data/portfolioData";
+import { Lens } from "@/types/portfolio";
 
 export default function Home() {
   const [lens, setLens] = useState<Lens>("it");

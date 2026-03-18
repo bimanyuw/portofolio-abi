@@ -1,4 +1,4 @@
-import { Lens, LensTheme } from "@/types/portofolio";
+import { Lens, LensTheme } from "@/types/portfolio";
 
 type Props = {
   lens: Lens;

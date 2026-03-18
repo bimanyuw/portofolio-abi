@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Lens } from "@/types/portofolio";
+import { Lens } from "@/types/portfolio";
 
 type Props = {
   lens: Lens;

@@ -1,5 +1,5 @@
 import LensSwitch from "./LensSwitch";
-import { Lens } from "@/types/portofolio";
+import { Lens } from "@/types/portfolio";
 
 type Props = {
   lens: Lens;
