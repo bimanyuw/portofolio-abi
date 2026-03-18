@@ -1,490 +1,493 @@
 "use client";
 
-import Image from "next/image";
+import { motion } from "framer-motion";
 import {
-  AnimatePresence,
-  motion,
-  useScroll,
-  useTransform,
-} from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+  ArrowRight,
+  ChevronRight,
+  Github,
+  Instagram,
+  Linkedin,
+  Mail,
+  MonitorCog,
+  Play,
+  Sparkles,
+  Video,
+  Camera,
+  FileImage,
+} from "lucide-react";
+import { useMemo, useState } from "react";
+
+type Lens = "it" | "creative";
+
+type Project = {
+  title: string;
+  summary: string;
+  year: string;
+  role: string;
+  tags: string[];
+  href?: string;
+  accent: string;
+};
+
+const itProjects: Project[] = [
+  {
+    title: "Portfolio Website",
+    summary:
+      "A personal portfolio built to present identity, projects, and storytelling in a cleaner and more strategic way.",
+    year: "2026",
+    role: "Frontend Developer",
+    tags: ["Next.js", "Tailwind", "Framer Motion"],
+    accent: "System-driven personal branding",
+  },
+  {
+    title: "UI/UX Case Study",
+    summary:
+      "A product design exploration focused on user flow clarity, interaction hierarchy, and stronger visual structure.",
+    year: "2025",
+    role: "UI/UX Designer",
+    tags: ["Figma", "Research", "Prototype"],
+    accent: "Human-centered problem solving",
+  },
+  {
+    title: "Academic System Project",
+    summary:
+      "A structured project that combines logic, database thinking, and implementation discipline for coursework delivery.",
+    year: "2025",
+    role: "Systems Builder",
+    tags: ["Java", "SQL", "Documentation"],
+    accent: "Logic, structure, execution",
+  },
+];
+
+const creativeProjects: Project[] = [
+  {
+    title: "Event Documentation",
+    summary:
+      "Visual coverage built to preserve atmosphere, energy, and narrative moments from student and community events.",
+    year: "2026",
+    role: "Documenter",
+    tags: ["Documentation", "Storytelling", "Event"],
+    accent: "Moments turned into memory",
+  },
+  {
+    title: "Videography Showcase",
+    summary:
+      "Short-form visual work focused on pacing, transition, and mood to present stories with a more cinematic feel.",
+    year: "2025",
+    role: "Video Editor",
+    tags: ["Videography", "Editing", "Motion"],
+    accent: "Rhythm, emotion, movement",
+  },
+  {
+    title: "Photography Collection",
+    summary:
+      "A growing collection of shots exploring composition, detail, and atmosphere across people, places, and events.",
+    year: "2025",
+    role: "Photographer",
+    tags: ["Photography", "Composition", "Visual Identity"],
+    accent: "Framing with intention",
+  },
+];
+
+const experience = [
+  {
+    period: "2025 — Present",
+    title: "Technology, design, and project work",
+    description:
+      "Building experience across systems thinking, interface design, and digital execution through academic and organizational projects.",
+  },
+  {
+    period: "2024 — Present",
+    title: "Creative documentation and visual storytelling",
+    description:
+      "Exploring how events, people, and ideas can be translated into stronger visual narratives through photo and video work.",
+  },
+  {
+    period: "Ongoing",
+    title: "Cross-disciplinary growth",
+    description:
+      "Developing a portfolio that connects problem solving in technology with communication through visual creativity.",
+  },
+];
 
 export default function Home() {
-  const heroRef = useRef<HTMLDivElement | null>(null);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [lens, setLens] = useState<Lens>("it");
 
-  const chapters = [
-    { number: "01", label: "THE STORY", href: "#story" },
-    { number: "02", label: "SELECTED PROJECTS", href: "#projects" },
-    { number: "03", label: "ACHIEVEMENTS", href: "#achievements" },
-    { number: "04", label: "EXPERIENCE", href: "#experience" },
-    { number: "05", label: "CONTACT", href: "#contact" },
-  ];
-
-  useEffect(() => {
-    document.body.style.overflow = isMenuOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isMenuOpen]);
-
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"],
-  });
-
-  const projects = [
-    {
-      number: "01",
-      title: "Portfolio Website",
-      category: "Personal Branding",
-      description:
-        "A cinematic personal portfolio inspired by premium athlete websites, focused on storytelling, motion, and visual identity.",
-    },
-    {
-      number: "02",
-      title: "UI/UX Case Study",
-      category: "Product Design",
-      description:
-        "A structured case study exploring user flows, interface improvements, and visual systems for digital experiences.",
-    },
-    {
-      number: "03",
-      title: "Creative Web Experiment",
-      category: "Frontend Development",
-      description:
-        "An experimental web concept combining motion, layout, and strong branding to create a memorable first impression.",
-    },
-  ];
-
-  const achievements = [
-    "Selected academic and creative works",
-    "Cross-disciplinary experience in design and technology",
-    "Leadership in student and collaborative initiatives",
-    "Portfolio focused on impact, branding, and execution",
-  ];
-
-  const experiences = [
-    {
-      year: "2025",
-      title: "Project & Organization Work",
-      text: "Led and contributed to collaborative initiatives involving planning, execution, and communication.",
-    },
-    {
-      year: "2024",
-      title: "Creative and Design Exploration",
-      text: "Built an interest in UI/UX, visual systems, and identity-driven digital experiences.",
-    },
-    {
-      year: "2023",
-      title: "Academic Development",
-      text: "Strengthened analytical, technical, and problem-solving foundations through study and projects.",
-    },
-  ];
-
-  // HERO ANIMATION
-  const bgOverlayOpacity = useTransform(scrollYProgress, [0.18, 0.42], [0, 1]);
-
-  const frameWidth = useTransform(
-    scrollYProgress,
-    [0, 0.16, 0.42],
-    ["100vw", "100vw", "34vw"]
+  const currentProjects = useMemo(
+    () => (lens === "it" ? itProjects : creativeProjects),
+    [lens]
   );
 
-  const frameHeight = useTransform(
-    scrollYProgress,
-    [0, 0.16, 0.42],
-    ["100vh", "100vh", "42vh"]
-  );
-
-  const frameBorderRadius = useTransform(
-    scrollYProgress,
-    [0, 0.22, 0.42],
-    ["0px", "0px", "22px"]
-  );
-
-  const imageScale = useTransform(scrollYProgress, [0, 0.42], [1, 1.08]);
-
-  const grayscale = useTransform(scrollYProgress, [0.2, 0.42], [0, 1]);
-  const brightness = useTransform(scrollYProgress, [0.2, 0.42], [1, 0.76]);
-  const contrast = useTransform(scrollYProgress, [0.2, 0.42], [1, 1.04]);
-
-  const imageFilter = useTransform(
-    [grayscale, brightness, contrast],
-    ([g, b, c]) => `grayscale(${g}) brightness(${b}) contrast(${c})`
-  );
-
-  const marqueeOpacity = useTransform(scrollYProgress, [0.3, 0.46], [0, 1]);
-
-  const focusOpacity = useTransform(scrollYProgress, [0.12, 0.28], [1, 0]);
-  const focusY = useTransform(scrollYProgress, [0.12, 0.28], [0, 20]);
-  const focusClip = useTransform(
-    scrollYProgress,
-    [0.12, 0.28],
-    ["inset(0% 0% 0% 0% round 24px)", "inset(0% 0% 100% 0% round 24px)"]
-  );
+  const isIT = lens === "it";
 
   return (
-    <main className="bg-[#d2d6dc] text-black">
-      {/* HERO */}
-      <section ref={heroRef} className="relative h-[280vh] bg-[#d2d6dc]">
-        <div className="sticky top-0 h-screen overflow-hidden">
-          <div className="absolute inset-0 bg-[#d2d6dc]" />
+    <main className={isIT ? "theme-it" : "theme-creative"}>
+      <section className="mx-auto min-h-screen max-w-7xl px-6 pb-16 pt-6 md:px-10 lg:px-12">
+        <nav className="glass sticky top-4 z-40 mx-auto mb-8 flex max-w-6xl items-center justify-between rounded-full px-4 py-3 md:px-6">
+          <div>
+            <p className="text-[11px] uppercase tracking-[0.3em] opacity-70">
+              Portfolio
+            </p>
+            <p className="text-sm font-semibold md:text-base">Abi</p>
+          </div>
 
-          <div className="absolute inset-0 opacity-30 [background-image:linear-gradient(to_right,rgba(17,19,21,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(17,19,21,0.05)_1px,transparent_1px)] [background-size:140px_140px]" />
+          <div className="hidden items-center gap-6 text-sm md:flex">
+            <a href="#about" className="nav-link">
+              About
+            </a>
+            <a href="#projects" className="nav-link">
+              Projects
+            </a>
+            <a href="#experience" className="nav-link">
+              Experience
+            </a>
+            <a href="#contact" className="nav-link">
+              Contact
+            </a>
+          </div>
+
+          <a href="#contact" className="primary-pill">
+            Let&apos;s talk
+          </a>
+        </nav>
+
+        <section className="grid gap-10 pb-20 pt-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end lg:pt-14">
+          <div>
+            <motion.p
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="mb-4 inline-flex rounded-full border px-4 py-2 text-xs uppercase tracking-[0.28em]"
+            >
+              Information Systems Student · Creative Explorer
+            </motion.p>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.05 }}
+              className="max-w-4xl text-5xl font-semibold leading-[0.95] tracking-[-0.04em] md:text-7xl"
+            >
+              Designing one portfolio with two distinct ways to know me.
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.12 }}
+              className="mt-6 max-w-2xl text-base leading-8 opacity-80 md:text-lg"
+            >
+              I work across technology and creativity. One side is built on
+              systems, logic, and digital products. The other is built on
+              visuals, storytelling, and atmosphere.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.18 }}
+              className="mt-8 flex flex-wrap gap-4"
+            >
+              <a href="#projects" className="primary-cta">
+                Explore projects
+                <ArrowRight size={18} />
+              </a>
+              <a href="#contact" className="secondary-cta">
+                Contact me
+              </a>
+            </motion.div>
+          </div>
 
           <motion.div
-            style={{ opacity: bgOverlayOpacity }}
-            className="absolute inset-0 bg-[#0d1117]"
-          />
-
-          <motion.div
-            style={{ opacity: bgOverlayOpacity }}
-            className="absolute inset-0 [background-image:linear-gradient(to_right,rgba(210,214,220,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(210,214,220,0.06)_1px,transparent_1px)] [background-size:140px_140px]"
-          />
-
-          {/* Navbar */}
-          <header className="absolute inset-x-0 top-0 z-50 flex items-center justify-between px-6 py-6 lg:px-10">
-            <div className="leading-none">
-              <h1 className="text-3xl font-semibold tracking-tight text-white mix-blend-difference lg:text-5xl">
-                ABIMANYU
-                <br />
-                WIJANARKO
-              </h1>
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="hero-card"
+          >
+            <div className="mb-8 flex items-start justify-between gap-6">
+              <div>
+                <p className="text-xs uppercase tracking-[0.28em] opacity-60">
+                  Current lens
+                </p>
+                <h2 className="mt-3 text-2xl font-semibold md:text-3xl">
+                  {isIT ? "IT Side" : "Creative Side"}
+                </h2>
+              </div>
+              <div className="hero-icon-wrap">
+                {isIT ? <MonitorCog size={24} /> : <Sparkles size={24} />}
+              </div>
             </div>
 
-            <div className="flex items-center gap-3">
-              <a
-                href="#contact"
-                className="rounded-2xl bg-white/90 px-6 py-4 text-sm font-semibold text-black backdrop-blur"
+            <p className="max-w-md text-sm leading-7 opacity-80 md:text-base">
+              {isIT
+                ? "Focused on websites, systems thinking, UI/UX exploration, and digital problem solving with a sharper, darker visual identity."
+                : "Focused on documentation, videography, and photography with a lighter, cleaner, and more visual presentation style."}
+            </p>
+
+            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              <div className="stat-card">
+                <p className="stat-label">Primary energy</p>
+                <p className="stat-value">
+                  {isIT ? "Build and solve" : "Capture and express"}
+                </p>
+              </div>
+              <div className="stat-card">
+                <p className="stat-label">Preferred output</p>
+                <p className="stat-value">
+                  {isIT ? "Systems and interfaces" : "Visual stories and mood"}
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        </section>
+
+        <section id="about" className="section-space grid gap-8 lg:grid-cols-[0.75fr_1.25fr]">
+          <div>
+            <p className="eyebrow">About</p>
+            <h2 className="section-title">Get to know me through two lenses.</h2>
+          </div>
+
+          <div className="grid gap-6">
+            <div className="content-card">
+              <p className="text-lg leading-8 opacity-85">
+                I am building a portfolio that does not flatten everything into a
+                single category. My work sits between technology and creativity,
+                so this website is structured to show both sides with equal
+                clarity.
+              </p>
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-2">
+              <button
+                type="button"
+                onClick={() => setLens("it")}
+                className={`lens-card ${isIT ? "lens-card-active" : ""}`}
               >
-                CONTACT
-              </a>
+                <div className="flex items-center justify-between gap-4">
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.28em] opacity-60">
+                      Lens 01
+                    </p>
+                    <h3 className="mt-2 text-2xl font-semibold">IT Side</h3>
+                  </div>
+                  <MonitorCog size={22} />
+                </div>
+                <p className="mt-4 text-sm leading-7 opacity-80">
+                  For projects related to web, systems, UI/UX, and structured
+                  digital problem solving.
+                </p>
+              </button>
 
               <button
                 type="button"
-                onClick={() => setIsMenuOpen(true)}
-                className="rounded-2xl border border-black/10 bg-white/75 px-5 py-4 text-black backdrop-blur transition hover:bg-white"
-                aria-label="Open menu"
+                onClick={() => setLens("creative")}
+                className={`lens-card ${!isIT ? "lens-card-active" : ""}`}
               >
-                ☰
+                <div className="flex items-center justify-between gap-4">
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.28em] opacity-60">
+                      Lens 02
+                    </p>
+                    <h3 className="mt-2 text-2xl font-semibold">
+                      Creative Side
+                    </h3>
+                  </div>
+                  <Sparkles size={22} />
+                </div>
+                <p className="mt-4 text-sm leading-7 opacity-80">
+                  For works related to documentation, videography,
+                  photography, and visual storytelling.
+                </p>
               </button>
             </div>
-          </header>
-
-          {/* Top logo */}
-          <div className="absolute left-1/2 top-8 z-50 -translate-x-1/2">
-            <p className="text-2xl font-bold text-white mix-blend-difference">
-              AB
-            </p>
           </div>
+        </section>
 
-          {/* Background marquee text */}
-          <motion.div
-            style={{ opacity: marqueeOpacity }}
-            className="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center gap-4 overflow-hidden"
-          >
-            <motion.div
-              animate={{ x: ["0%", "-50%"] }}
-              transition={{ repeat: Infinity, duration: 18, ease: "linear" }}
-              className="flex whitespace-nowrap"
-            >
-              <span className="px-8 text-[8vw] font-semibold uppercase tracking-tight text-white/10">
-                ABIMANYU WIJANARKO ABIMANYU WIJANARKO ABIMANYU WIJANARKO
-              </span>
-            </motion.div>
-
-            <motion.div
-              animate={{ x: ["-50%", "0%"] }}
-              transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
-              className="flex whitespace-nowrap"
-            >
-              <span className="px-8 text-[8vw] font-semibold uppercase tracking-tight text-[#d2d6dc]/15">
-                ABIMANYU WIJANARKO ABIMANYU WIJANARKO ABIMANYU WIJANARKO
-              </span>
-            </motion.div>
-          </motion.div>
-
-          {/* Image frame */}
-          <motion.div
-            style={{
-              width: frameWidth,
-              height: frameHeight,
-              borderRadius: frameBorderRadius,
-            }}
-            className="absolute left-1/2 top-1/2 z-30 -translate-x-1/2 -translate-y-1/2 overflow-hidden bg-[#d2d6dc]"
-          >
-            <motion.div
-              style={{
-                scale: imageScale,
-                filter: imageFilter,
-              }}
-              className="relative h-full w-full"
-            >
-              <Image
-                src="/images/hero-main.jpg"
-                alt="Hero image"
-                fill
-                priority
-                className="object-cover object-center"
-              />
-            </motion.div>
-          </motion.div>
-
-          {/* Current Focus */}
-          <motion.div
-            style={{
-              opacity: focusOpacity,
-              y: focusY,
-              clipPath: focusClip,
-            }}
-            className="absolute bottom-6 right-6 z-50 hidden w-40 rounded-3xl border border-black/10 bg-white/20 p-4 backdrop-blur md:block"
-          >
-            <p className="text-[10px] uppercase tracking-[0.18em] text-black/55">
-              CURRENT FOCUS
-            </p>
-            <div className="mt-6 space-y-4 text-xs text-black/75">
-              <p>UI/UX & Web Design</p>
-              <p>Personal Branding</p>
-              <p>Creative Development</p>
+        <section id="projects" className="section-space">
+          <div className="mb-8 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="eyebrow">Projects</p>
+              <h2 className="section-title">
+                {isIT ? "System-oriented selected work." : "Visual and creative selected work."}
+              </h2>
+              <p className="mt-4 max-w-2xl text-sm leading-7 opacity-75 md:text-base">
+                {isIT
+                  ? "This side highlights work shaped by logic, interfaces, structure, and digital execution."
+                  : "This side highlights work shaped by visuals, narrative rhythm, atmosphere, and documentation."}
+              </p>
             </div>
-          </motion.div>
-        </div>
-      </section>
 
-      {/* STORY */}
-      <section id="story" className="bg-[#0d1117] px-6 py-24 text-white lg:px-10">
-        <div className="mx-auto max-w-7xl">
-          <p className="text-sm uppercase tracking-[0.3em] text-[#d2d6dc]/70">
-            Story
-          </p>
-          <h2 className="mt-4 max-w-4xl text-4xl font-semibold sm:text-6xl">
-            A portfolio built around identity, motion, and memorable presence.
-          </h2>
-          <p className="mt-6 max-w-2xl text-base leading-8 text-white/70">
-            This portfolio is designed to feel cinematic at first glance, but
-            still structured enough to present projects, experience, and
-            achievements with clarity.
-          </p>
-        </div>
-      </section>
-
-      {/* PROJECTS */}
-      <section
-        id="projects"
-        className="bg-[#0d1117] px-6 py-24 text-white lg:px-10"
-      >
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-14">
-            <p className="text-sm uppercase tracking-[0.3em] text-[#d2d6dc]/70">
-              Projects
-            </p>
-            <h2 className="mt-4 text-4xl font-semibold sm:text-6xl">
-              Selected work.
-            </h2>
+            <div className="inline-flex rounded-full border p-1">
+              <button
+                type="button"
+                onClick={() => setLens("it")}
+                className={`toggle-chip ${isIT ? "toggle-chip-active" : ""}`}
+              >
+                IT Side
+              </button>
+              <button
+                type="button"
+                onClick={() => setLens("creative")}
+                className={`toggle-chip ${!isIT ? "toggle-chip-active" : ""}`}
+              >
+                Creative Side
+              </button>
+            </div>
           </div>
 
-          <div className="space-y-6">
-            {projects.map((project) => (
-              <article
-                key={project.number}
-                className="grid gap-6 rounded-[2rem] border border-white/10 bg-white/[0.03] p-8 lg:grid-cols-[0.25fr_0.75fr]"
+          <div className="grid gap-5 lg:grid-cols-3">
+            {currentProjects.map((project, index) => (
+              <motion.article
+                key={project.title}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.55, delay: index * 0.08 }}
+                className="project-card"
               >
-                <div>
-                  <p className="text-sm uppercase tracking-[0.25em] text-white/35">
-                    {project.number}
-                  </p>
-                  <p className="mt-8 text-xs uppercase tracking-[0.25em] text-[#d2d6dc]/65">
-                    {project.category}
-                  </p>
-                  <h3 className="mt-3 text-2xl font-semibold sm:text-3xl">
-                    {project.title}
-                  </h3>
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.28em] opacity-55">
+                      {project.year}
+                    </p>
+                    <h3 className="mt-3 text-2xl font-semibold tracking-[-0.03em]">
+                      {project.title}
+                    </h3>
+                  </div>
+                  <div className="project-icon">
+                    {isIT ? (
+                      <ChevronRight size={18} />
+                    ) : index === 0 ? (
+                      <FileImage size={18} />
+                    ) : index === 1 ? (
+                      <Video size={18} />
+                    ) : (
+                      <Camera size={18} />
+                    )}
+                  </div>
                 </div>
 
-                <div>
-                  <p className="max-w-2xl text-sm leading-7 text-white/70 sm:text-base">
-                    {project.description}
+                <p className="mt-5 text-sm leading-7 opacity-80 md:text-[15px]">
+                  {project.summary}
+                </p>
+
+                <div className="mt-6">
+                  <p className="text-xs uppercase tracking-[0.28em] opacity-55">
+                    Role
                   </p>
-                  <button
-                    type="button"
-                    className="mt-6 rounded-full border border-white/15 px-5 py-2 text-sm text-white transition hover:border-white/40 hover:bg-white/5"
-                  >
-                    View Project
+                  <p className="mt-2 text-sm font-medium opacity-90">
+                    {project.role}
+                  </p>
+                </div>
+
+                <div className="mt-6 flex flex-wrap gap-2">
+                  {project.tags.map((tag) => (
+                    <span key={tag} className="tag-pill">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="mt-8 flex items-center justify-between gap-4 border-t pt-5 text-sm">
+                  <span className="opacity-65">{project.accent}</span>
+                  <button type="button" className="inline-flex items-center gap-2 font-medium">
+                    View more
+                    <ArrowRight size={16} />
                   </button>
                 </div>
+              </motion.article>
+            ))}
+          </div>
+        </section>
+
+        <section id="experience" className="section-space grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+          <div>
+            <p className="eyebrow">Experience</p>
+            <h2 className="section-title">
+              Building range without losing direction.
+            </h2>
+          </div>
+
+          <div className="space-y-4">
+            {experience.map((item) => (
+              <article key={item.title} className="timeline-card">
+                <p className="text-xs uppercase tracking-[0.28em] opacity-55">
+                  {item.period}
+                </p>
+                <h3 className="mt-3 text-2xl font-semibold tracking-[-0.03em]">
+                  {item.title}
+                </h3>
+                <p className="mt-4 max-w-2xl text-sm leading-7 opacity-80 md:text-base">
+                  {item.description}
+                </p>
               </article>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ACHIEVEMENTS */}
-      <section
-        id="achievements"
-        className="bg-[#0d1117] px-6 py-24 text-white lg:px-10"
-      >
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.45fr_0.55fr]">
-          <div>
-            <p className="text-sm uppercase tracking-[0.3em] text-[#d2d6dc]/70">
-              Achievements
-            </p>
-            <h2 className="mt-4 text-4xl font-semibold sm:text-6xl">
-              Highlights and strengths.
+        <section className="section-space grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
+          <div className="spotlight-card">
+            <p className="eyebrow">Direction</p>
+            <h2 className="section-title max-w-2xl">
+              One identity, two working languages.
             </h2>
-          </div>
-
-          <div className="grid gap-4 sm:grid-cols-2">
-            {achievements.map((item) => (
-              <div
-                key={item}
-                className="rounded-[1.75rem] border border-white/10 bg-white/[0.03] p-6 text-sm leading-7 text-white/75"
-              >
-                {item}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* EXPERIENCE */}
-      <section
-        id="experience"
-        className="bg-[#0d1117] px-6 py-24 text-white lg:px-10"
-      >
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-14">
-            <p className="text-sm uppercase tracking-[0.3em] text-[#d2d6dc]/70">
-              Experience
+            <p className="mt-4 max-w-2xl text-sm leading-7 opacity-80 md:text-base">
+              Technology shapes how I structure and solve. Creativity shapes how
+              I communicate and present. This portfolio is designed to hold both
+              without forcing either one to disappear.
             </p>
-            <h2 className="mt-4 text-4xl font-semibold sm:text-6xl">
-              Journey and progression.
-            </h2>
           </div>
 
-          <div className="space-y-6">
-            {experiences.map((item) => (
-              <article
-                key={item.year + item.title}
-                className="grid gap-6 rounded-[2rem] border border-white/10 bg-white/[0.03] p-8 lg:grid-cols-[0.2fr_0.8fr]"
-              >
-                <div>
-                  <p className="text-lg font-semibold text-[#d2d6dc]/85">
-                    {item.year}
-                  </p>
-                </div>
-                <div>
-                  <h3 className="text-2xl font-semibold">{item.title}</h3>
-                  <p className="mt-4 max-w-3xl text-sm leading-7 text-white/70 sm:text-base">
-                    {item.text}
-                  </p>
-                </div>
-              </article>
-            ))}
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
+            <div className="mini-card">
+              <p className="mini-label">IT language</p>
+              <p className="mini-value">Interfaces, systems, logic, clarity</p>
+            </div>
+            <div className="mini-card">
+              <p className="mini-label">Creative language</p>
+              <p className="mini-value">Mood, visuals, movement, storytelling</p>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* CONTACT */}
-      <footer
-        id="contact"
-        className="border-t border-white/10 bg-[#0d1117] px-6 py-20 text-white lg:px-10"
-      >
-        <div className="mx-auto flex max-w-7xl flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-          <div>
-            <p className="text-sm uppercase tracking-[0.3em] text-[#d2d6dc]/70">
-              Contact
-            </p>
-            <h2 className="mt-4 max-w-3xl text-4xl font-semibold sm:text-6xl">
-              Let’s build something meaningful.
-            </h2>
-          </div>
+        <section id="contact" className="section-space pt-6">
+          <div className="contact-card">
+            <div>
+              <p className="eyebrow">Contact</p>
+              <h2 className="section-title max-w-2xl">
+                Let&apos;s build something intentional.
+              </h2>
+              <p className="mt-4 max-w-2xl text-sm leading-7 opacity-80 md:text-base">
+                Open for collaboration, project work, documentation needs, and
+                conversations around design, systems, and creative execution.
+              </p>
+            </div>
 
-          <div className="max-w-xl">
-            <p className="text-base leading-8 text-white/70">
-              Open to internships, collaborations, creative work, and meaningful
-              conversations around branding, design, and digital products.
-            </p>
-
-            <div className="mt-6 flex flex-wrap gap-4">
-              <a
-                href="mailto:your@email.com"
-                className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-black"
-              >
-                Email Me
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a href="mailto:your@email.com" className="contact-pill">
+                <Mail size={18} />
+                Email
               </a>
-              <a
-                href="#"
-                className="rounded-full border border-white/15 px-6 py-3 text-sm font-semibold text-white"
-              >
+              <a href="https://www.linkedin.com" className="contact-pill">
+                <Linkedin size={18} />
                 LinkedIn
               </a>
+              <a href="https://github.com" className="contact-pill">
+                <Github size={18} />
+                GitHub
+              </a>
+              <a href="https://www.instagram.com" className="contact-pill">
+                <Instagram size={18} />
+                Instagram
+              </a>
+              <a href="#projects" className="contact-pill">
+                <Play size={18} />
+                Browse work
+              </a>
             </div>
           </div>
-        </div>
-      </footer>
-
-      {/* FULLSCREEN MENU */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[100] bg-[#04061a] text-white"
-          >
-            <motion.div
-              initial={{ y: 18, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: 18, opacity: 0 }}
-              transition={{ duration: 0.25, ease: "easeOut" }}
-              className="h-full overflow-y-auto px-6 py-8 lg:px-10"
-            >
-              <div className="mx-auto max-w-7xl">
-                <div className="flex items-start justify-between gap-6">
-                  <p className="text-2xl font-medium tracking-tight text-white/95 md:text-4xl">
-                    Select your chapter
-                  </p>
-
-                  <button
-                    type="button"
-                    onClick={() => setIsMenuOpen(false)}
-                    className="rounded-2xl bg-white px-8 py-5 text-lg font-semibold text-black transition hover:scale-[1.02]"
-                  >
-                    CLOSE
-                  </button>
-                </div>
-
-                <div className="mt-8 border-t border-white/15 pt-10">
-                  <nav className="space-y-8 md:space-y-10">
-                    {chapters.map((item, index) => (
-                      <motion.a
-                        key={item.number}
-                        href={item.href}
-                        onClick={() => setIsMenuOpen(false)}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -20 }}
-                        transition={{ delay: index * 0.05 }}
-                        className="group flex items-start gap-4 md:gap-6"
-                      >
-                        <span className="mt-3 w-10 text-sm font-medium text-white/70 md:text-xl">
-                          {item.number}
-                        </span>
-
-                        <span className="text-[clamp(2.3rem,7vw,6rem)] font-black uppercase leading-[0.92] tracking-tight text-white transition group-hover:text-[#d2d6dc]">
-                          {item.label}
-                        </span>
-                      </motion.a>
-                    ))}
-                  </nav>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+        </section>
+      </section>
     </main>
   );
 }
