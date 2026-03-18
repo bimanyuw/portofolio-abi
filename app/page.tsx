@@ -16,6 +16,7 @@ import {
   FileImage,
 } from "lucide-react";
 import { useMemo, useState } from "react";
+import ITHero from "@/components/ITHero";
 
 type Lens = "it" | "creative";
 
@@ -150,7 +151,7 @@ export default function Home() {
             Let&apos;s talk
           </a>
         </nav>
-
+        <ITHero />
         <section className="grid gap-10 pb-20 pt-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end lg:pt-14">
           <div>
             <motion.p
@@ -354,7 +355,7 @@ export default function Home() {
                       {project.title}
                     </h3>
                   </div>
-                  <div className="project-icon">
+                  <div className="project-icon text-[#f98400]">
                     {isIT ? (
                       <ChevronRight size={18} />
                     ) : index === 0 ? (
@@ -464,19 +465,19 @@ export default function Home() {
             </div>
 
             <div className="mt-8 flex flex-wrap gap-3">
-              <a href="mailto:your@email.com" className="contact-pill">
+              <a href="f.abimanyuwijanarko@gmail.com" className="contact-pill">
                 <Mail size={18} />
                 Email
               </a>
-              <a href="https://www.linkedin.com" className="contact-pill">
+              <a href="https://www.linkedin.com/in/febrian-abimanyu-wijanarko-197514321/" className="contact-pill">
                 <Linkedin size={18} />
                 LinkedIn
               </a>
-              <a href="https://github.com" className="contact-pill">
+              <a href="https://github.com/bimanyuw" className="contact-pill">
                 <Github size={18} />
                 GitHub
               </a>
-              <a href="https://www.instagram.com" className="contact-pill">
+              <a href="https://www.instagram.com/abimanyuwijanarko/" className="contact-pill">
                 <Instagram size={18} />
                 Instagram
               </a>
