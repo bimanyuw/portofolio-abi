@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import {
   AnimatePresence,
   motion,
+  useMotionValue,
   useReducedMotion,
   useScroll,
   useSpring,
@@ -10,7 +11,10 @@ import {
 import {
   ArrowDown,
   ArrowUpRight,
+  Award,
   Briefcase,
+  BadgeCheck,
+  Camera,
   Code2,
   FileText,
   GraduationCap,
@@ -26,12 +30,18 @@ import heroPortrait from "./assets/hero-portrait.jpeg";
 const img = (seed, w = 1200, h = 900) =>
   `https://picsum.photos/seed/${seed}/${w}/${h}`;
 
+const cardHover = {
+  y: -8,
+  scale: 1.015,
+  transition: { type: "spring", stiffness: 260, damping: 22 },
+};
+
 const heroPortraitFrame = {
-  top: "-15vh",
-  right: "0vw",
-  width: "48vw",
-  height: "120vh",
-  maxWidth: "680px",
+  top: "-12vh",
+  right: "-1vw",
+  width: "43vw",
+  height: "112vh",
+  maxWidth: "610px",
 };
 
 const heroPortraitImage = {
@@ -52,9 +62,14 @@ const profile = {
 const navItems = [
   { label: "Home", href: "#home" },
   { label: "About", href: "#about" },
-  { label: "Journey", href: "#journey" },
+  { label: "Mission", href: "#mission" },
+  { label: "Education", href: "#education" },
+  { label: "Skills", href: "#skills" },
+  { label: "Experience", href: "#experience" },
   { label: "Projects", href: "#projects" },
-  { label: "Process", href: "#process" },
+  { label: "Achievements", href: "#achievements" },
+  { label: "Certificates", href: "#certificates" },
+  { label: "Gallery", href: "#gallery" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -184,30 +199,117 @@ const skills = [
   "Project Management",
 ];
 
-const projectMethods = [
+const educationItems = [
+  {
+    title: "Universitas Indonesia",
+    meta: "Faculty of Computer Science",
+    year: "Current",
+    copy: "Information Systems student learning software engineering, databases, UX, business processes, and product-centered problem solving.",
+  },
+  {
+    title: "Core Learning Focus",
+    meta: "Systems, product, and interface",
+    year: "Track",
+    copy: "Building a foundation across web development, data, interaction design, product strategy, and collaborative project execution.",
+  },
+];
+
+const skillGroups = [
+  { title: "Development", items: ["React", "Django", "SQL", "Tailwind CSS", "Framer Motion"] },
+  { title: "Design & Product", items: ["UX Research", "Figma", "Product Strategy", "Story Mapping"] },
+  { title: "Execution", items: ["Project Management", "Presentation", "Case Study Writing", "Team Coordination"] },
+];
+
+const experienceItems = [
+  {
+    role: "Project Manager",
+    place: "TSA UI",
+    year: "Current",
+    copy: "Coordinating timelines, team communication, stakeholder needs, and program delivery across campus initiatives.",
+    seed: "orange-black-project-manager-campus-team",
+  },
+  {
+    role: "Web and Product Builder",
+    place: "Independent Projects",
+    year: "2026",
+    copy: "Designing and building portfolio-ready digital products, hackathon prototypes, dashboards, and UX case studies.",
+    seed: "orange-black-web-product-builder-workspace",
+  },
+  {
+    role: "Hackathon Product Contributor",
+    place: "Product Competition",
+    year: "2026",
+    copy: "Exploring AI concepts, product strategy, interface flows, and pitch-ready storytelling for rapid prototype work.",
+    seed: "orange-black-hackathon-product-team",
+  },
+  {
+    role: "UX Case Study Writer",
+    place: "Portfolio Projects",
+    year: "2026",
+    copy: "Turning research, process, and design decisions into clear case studies that explain both value and execution.",
+    seed: "orange-black-ux-case-study-writing",
+  },
+  {
+    role: "Frontend Developer",
+    place: "React and Tailwind Builds",
+    year: "2026",
+    copy: "Building responsive interfaces with component-based structure, motion, and polished interaction details.",
+    seed: "orange-black-frontend-development-interface",
+  },
+  {
+    role: "Campus Organizer",
+    place: "Team and Event Work",
+    year: "2026",
+    copy: "Supporting coordination, planning, communication, and documentation for collaborative campus activities.",
+    seed: "orange-black-campus-organizer-event",
+  },
+];
+
+const achievements = [
+  "Built NUSALOKA as an AI product concept for regional food allocation planning.",
+  "Developed tourism, ticketing, and portfolio projects with React, Django, and Tailwind CSS.",
+  "Created product narratives that combine problem framing, interface design, and presentation delivery.",
+];
+
+const certificates = [
+  { title: "Frontend Development", issuer: "Portfolio Learning Track", year: "2026" },
+  { title: "UX Research and Product Thinking", issuer: "Self-directed Study", year: "2026" },
+  { title: "Project Management Practice", issuer: "Campus Organization", year: "2026" },
+];
+
+const galleryItems = [
+  { title: "Product Workspace", seed: "orange-black-product-workspace" },
+  { title: "Hackathon Build", seed: "orange-black-hackathon-build" },
+  { title: "UX Case Study", seed: "orange-black-ux-case-study" },
+  { title: "Campus Project", seed: "orange-black-campus-project" },
+  { title: "Portfolio Visual", seed: "orange-black-portfolio-visual" },
+  { title: "Presentation Deck", seed: "orange-black-presentation-deck" },
+];
+
+const missionItems = [
   {
     step: "01",
-    title: "Frame the Problem",
-    copy: "Turn broad ideas into a clear user need, product angle, success metric, and delivery scope.",
-    points: ["Problem framing", "User context", "Feature prioritization"],
+    title: "Create Useful Products",
+    copy: "Build digital work that solves real problems, feels clear to use, and gives people a better way to move through information.",
+    points: ["Human-centered", "Practical value", "Clear outcomes"],
   },
   {
     step: "02",
-    title: "Design the Flow",
-    copy: "Map the experience before polishing screens, so every page has a reason and every action has a next step.",
-    points: ["Information architecture", "Interaction flow", "Interface logic"],
+    title: "Connect Design and Code",
+    copy: "Bring interface design, frontend development, and product thinking together so ideas can become working experiences.",
+    points: ["Interface clarity", "Frontend craft", "Product logic"],
   },
   {
     step: "03",
-    title: "Build the Product",
-    copy: "Move from concept into working interfaces with clean components, responsive layouts, and practical implementation choices.",
-    points: ["React frontend", "Django/web apps", "Responsive UI"],
+    title: "Tell Better Stories",
+    copy: "Shape every project into a story people can understand: the problem, the process, the decision, and the value.",
+    points: ["Case studies", "Visual narrative", "Presentation"],
   },
   {
     step: "04",
-    title: "Package the Story",
-    copy: "Shape the final work into a case study or demo that explains the value, process, and decisions clearly.",
-    points: ["Case study writing", "Demo narrative", "Presentation polish"],
+    title: "Keep Growing",
+    copy: "Use every project, organization role, and competition as a way to sharpen technical skill, taste, and collaboration.",
+    points: ["Learning mindset", "Teamwork", "Execution"],
   },
 ];
 
@@ -232,6 +334,36 @@ function ScrollIndicator() {
   );
 }
 
+function CursorGlow() {
+  const reducedMotion = useReducedMotion();
+  const mouseX = useMotionValue(-240);
+  const mouseY = useMotionValue(-240);
+  const x = useSpring(mouseX, { stiffness: 120, damping: 28, mass: 0.25 });
+  const y = useSpring(mouseY, { stiffness: 120, damping: 28, mass: 0.25 });
+
+  useEffect(() => {
+    if (reducedMotion) return undefined;
+
+    const onMove = (event) => {
+      mouseX.set(event.clientX - 240);
+      mouseY.set(event.clientY - 240);
+    };
+
+    window.addEventListener("pointermove", onMove, { passive: true });
+    return () => window.removeEventListener("pointermove", onMove);
+  }, [mouseX, mouseY, reducedMotion]);
+
+  if (reducedMotion) return null;
+
+  return (
+    <motion.div
+      aria-hidden="true"
+      className="pointer-events-none fixed left-0 top-0 z-[45] hidden h-[480px] w-[480px] rounded-full bg-[#ff6a00]/12 blur-[90px] mix-blend-screen lg:block"
+      style={{ x, y }}
+    />
+  );
+}
+
 function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -251,7 +383,7 @@ function Header() {
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
       >
         <div
-          className={`liquid-nav mx-auto flex max-w-[1180px] items-center justify-between rounded-full border px-3 py-2 shadow-[0_24px_90px_rgba(0,0,0,0.38)] backdrop-blur-2xl transition duration-500 sm:px-4 ${
+          className={`liquid-nav mx-auto flex max-w-[1320px] items-center justify-between rounded-full border px-3 py-2 shadow-[0_24px_90px_rgba(0,0,0,0.38)] backdrop-blur-2xl transition duration-500 sm:px-4 ${
             scrolled
               ? "border-white/18 bg-[#080808]/62"
               : "border-white/14 bg-white/[0.055]"
@@ -266,12 +398,12 @@ function Header() {
             </span>
           </a>
 
-          <nav className="hidden items-center gap-1 rounded-full border border-white/10 bg-black/18 px-2 py-1 lg:flex">
+          <nav className="hidden items-center gap-0.5 rounded-full border border-white/10 bg-black/18 px-2 py-1 xl:flex">
             {navItems.map((item) => (
               <a
                 key={item.label}
                 href={item.href}
-                className="rounded-full px-4 py-2 text-[10px] font-bold uppercase tracking-[0.24em] text-white/62 transition hover:bg-white/10 hover:text-white"
+                className="rounded-full px-2.5 py-2 text-[9px] font-bold uppercase tracking-[0.18em] text-white/62 transition hover:bg-white/10 hover:text-white 2xl:px-3"
               >
                 {item.label}
               </a>
@@ -336,67 +468,43 @@ function Hero() {
   const ref = useRef(null);
   const reducedMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const titleY = useTransform(scrollYProgress, [0, 1], reducedMotion ? [0, 0] : [0, -70]);
-  const portraitY = useTransform(scrollYProgress, [0, 1], reducedMotion ? [0, 0] : [0, 80]);
+  const titleY = useTransform(scrollYProgress, [0, 1], reducedMotion ? [0, 0] : [0, -56]);
   const curtainOpacity = useTransform(scrollYProgress, [0.55, 1], [0, 1]);
 
   return (
-    <section ref={ref} id="home" className="relative flex min-h-screen items-center overflow-hidden bg-[#050505] pb-12 pt-32 sm:pb-16 sm:pt-36">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_38%,rgba(255,106,0,0.3),transparent_31%),linear-gradient(115deg,#030303_0%,#050505_50%,#170900_100%)]" />
-      <div className="cinema-grid absolute inset-0 opacity-30" />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#030303] via-[#030303]/88 to-[#030303]/24" />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#030303] via-transparent to-transparent" />
+    <section ref={ref} id="home" className="portfolio-landing relative flex min-h-screen items-center overflow-hidden bg-[#050505] px-5 pb-12 pt-28 text-white sm:px-10 sm:pt-32">
+      <div className="portfolio-texture absolute inset-0" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_22%,rgba(255,106,0,0.15),transparent_24%),radial-gradient(circle_at_82%_28%,rgba(255,255,255,0.08),transparent_22%),linear-gradient(115deg,#030303_0%,#070707_48%,#0d0d0d_100%)]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60" />
 
-      <motion.div
-        style={{ y: portraitY, ...heroPortraitFrame }}
-        initial={{ x: 80, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        transition={{ delay: 0.5, duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
-        className="hero-portrait pointer-events-none absolute z-[3] hidden md:block"
-      >
-        <img
-          src={heroPortrait}
-          alt="Febrian Abimanyu portrait"
-          style={heroPortraitImage}
-          className="h-full w-full object-cover opacity-80 saturate-110 contrast-125"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#050505] via-[#050505]/25 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-l from-[#050505]/70 via-transparent to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#050505]/75 via-transparent to-transparent" />
-        <div className="absolute inset-0 bg-[#ff6a00]/5 mix-blend-color" />
-      </motion.div>
-
-      <div className="relative z-10 mx-auto w-full max-w-[1440px] px-5 sm:px-10">
-        <motion.div style={{ y: titleY }} className="max-w-[940px]">
-          <p className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-[#ff6a00]/40 bg-[#ff6a00]/10 px-4 py-2 font-mono text-[11px] font-bold uppercase tracking-[0.28em] text-[#ff6a00]">
-            <span className="pulse-dot h-2 w-2 rounded-full bg-[#ff6a00] shadow-[0_0_12px_#ff6a00]" />
-            {profile.location}
-          </p>
-          <h1 className="font-display text-[clamp(5.4rem,15vw,12.5rem)] leading-[0.82] tracking-[0.035em] text-white">
-            ABIMANYU<br />
-            <span className="text-[#ff6a00] [text-shadow:0_0_60px_rgba(255,106,0,0.6)]">
-              WIJANARKO
-            </span>
+      <div className="absolute left-[27%] top-[27%] hidden h-20 w-20 rotate-12 border border-white/15 md:block" />
+      <div className="relative z-10 mx-auto w-full max-w-[1296px] text-center">
+        <motion.p
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.65 }}
+          className="font-mono text-[10px] font-bold uppercase tracking-[0.34em] text-white/55"
+        >
+          {profile.name} / Website Portofolio
+        </motion.p>
+        <motion.div style={{ y: titleY }} className="mx-auto mt-5 max-w-[980px]">
+          <h1 className="font-display text-[clamp(5.2rem,15vw,13rem)] leading-[0.74] tracking-[0.025em] text-white">
+            PORTFOLIO
           </h1>
+          <p className="-mt-4 font-script text-[clamp(3.4rem,8vw,7.8rem)] leading-none text-[#ff6a00] [text-shadow:0_0_38px_rgba(255,106,0,0.38)] sm:-mt-8">
+            Abimanyu Wijanarko
+          </p>
         </motion.div>
-
-        <div className="mt-7 max-w-[900px]">
-          <div className="max-w-xl">
-            <p className="text-base font-semibold uppercase leading-snug text-white/84 sm:text-xl">
-              {profile.headline}
-            </p>
-            <p className="mt-4 text-sm leading-relaxed text-white/52 sm:text-base">
-              {profile.shortBio}
-            </p>
-          </div>
-        </div>
+        <p className="mx-auto mt-6 max-w-xl text-sm font-medium leading-relaxed text-white/52 sm:text-base">
+          "Building clear, bold digital work with a story behind every detail."
+        </p>
       </div>
 
       <a
         href="#about"
-        className="cur-grow group absolute bottom-6 right-5 z-20 inline-flex items-center gap-3 rounded-full bg-[#ff6a00] px-5 py-3.5 text-xs font-black uppercase tracking-[0.16em] text-black shadow-[0_0_40px_rgba(255,106,0,0.35)] transition hover:scale-105 sm:bottom-10 sm:right-10 sm:px-6 sm:py-4 sm:text-sm"
+        className="cur-grow group absolute bottom-6 right-5 z-20 inline-flex items-center gap-3 rounded-full bg-[#ff6a00] px-5 py-3.5 text-xs font-black uppercase tracking-[0.16em] text-black shadow-[0_0_40px_rgba(255,106,0,0.35)] transition hover:scale-105 sm:bottom-8 sm:right-8 sm:px-5 sm:py-3.5"
       >
-        Scroll to Explore
+        About Me
         <ArrowDown size={17} className="transition group-hover:translate-y-1" />
       </a>
 
@@ -407,77 +515,219 @@ function Hero() {
 
 function About() {
   const ref = useRef(null);
+  const reducedMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const portraitY = useTransform(scrollYProgress, [0, 1], reducedMotion ? [0, 0] : [24, -24]);
 
   return (
-    <section ref={ref} id="about" className="relative overflow-hidden bg-[#030303] py-24 text-white sm:py-28 lg:py-32">
-      <div className="cinema-grid absolute inset-0 opacity-25" />
-      <div className="pointer-events-none absolute left-0 top-1/4 h-[540px] w-[540px] bg-[#ff6a00]/15 blur-[130px]" />
-      <div className="relative mx-auto grid w-full max-w-[1440px] gap-8 px-5 sm:px-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-stretch">
+    <section ref={ref} id="about" className="relative min-h-screen overflow-hidden bg-[#030303] px-5 py-24 text-white sm:px-10 lg:py-28">
+      <div className="absolute inset-0 bg-[#030100]" />
+      <div className="absolute inset-y-0 right-0 z-0 w-[66%] bg-[linear-gradient(90deg,rgba(3,1,0,0)_0%,rgba(99,38,0,0.58)_42%,rgba(255,106,0,0.68)_100%)]" />
+      <motion.div
+        style={{ y: portraitY }}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+        className="pointer-events-none absolute inset-y-0 right-0 z-0 hidden w-[64%] overflow-hidden lg:block"
+      >
+        <img
+          src={heroPortrait}
+          alt="Febrian Abimanyu portrait"
+          style={{
+            WebkitMaskImage:
+              "linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.18) 12%, rgba(0,0,0,0.78) 28%, #000 54%, #000 100%)",
+            maskImage:
+              "linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.18) 12%, rgba(0,0,0,0.78) 28%, #000 54%, #000 100%)",
+          }}
+          className="absolute bottom-0 right-[4%] h-[104%] w-auto max-w-none object-contain opacity-76 saturate-110 contrast-105"
+        />
+      </motion.div>
+      <div className="absolute inset-y-0 right-0 z-[1] w-[66%] bg-[#ff6a00]/10 mix-blend-color" />
+      <div className="absolute inset-0 z-[1] bg-[linear-gradient(90deg,#020202_0%,#020202_40%,rgba(2,2,2,0.9)_52%,rgba(2,2,2,0.34)_72%,rgba(2,2,2,0.62)_100%)]" />
+      <div className="absolute inset-0 z-[1] bg-[radial-gradient(circle_at_74%_20%,rgba(255,106,0,0.16),transparent_30%),linear-gradient(0deg,#030303_0%,rgba(3,3,3,0.44)_14%,rgba(3,3,3,0.08)_48%,rgba(3,3,3,0.2)_100%)]" />
+      <div className="absolute left-[64%] top-0 z-[2] hidden h-full w-px rotate-[-27deg] bg-white/[0.045] lg:block" />
+      <div className="absolute right-[7%] top-[11%] z-[1] hidden h-20 w-1 rotate-[18deg] rounded-full bg-[#ffb21e]/42 shadow-[0_0_22px_rgba(255,106,0,0.38)] lg:block" />
+      <div className="absolute right-[20%] top-[8%] z-[1] hidden h-20 w-1 rotate-[8deg] rounded-full bg-[#ffb21e]/42 shadow-[0_0_22px_rgba(255,106,0,0.38)] lg:block" />
+      <div className="relative z-10 mx-auto grid min-h-[78vh] w-full max-w-[1440px] items-center gap-10 pt-20 lg:grid-cols-[0.6fr_0.4fr] lg:pt-24">
         <motion.div
           initial={{ y: 42, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
           viewport={{ once: true, amount: 0.35 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="border border-white/10 bg-[#090909]/85 p-6 shadow-[0_30px_100px_rgba(0,0,0,0.45)] backdrop-blur-xl sm:p-9 lg:p-10"
+          className="max-w-[760px] pb-3"
         >
-          <p className="font-mono text-[11px] uppercase tracking-[0.35em] text-[#ff6a00]">About Abi</p>
-          <h2 className="mt-5 font-display text-[4.6rem] leading-[0.82] text-white sm:text-[7.5rem]">
-            FIRST<br />MOVING<br /><span className="text-[#ff6a00]">CHAPTER.</span>
+          <h2 className="font-display text-[clamp(4rem,8.5vw,9.1rem)] leading-[0.88] tracking-[0.01em] text-white">
+            HELLO I AM
+            <span className="-mt-2 block text-[#ff6500] sm:-mt-4">
+              Abimanyu
+            </span>
           </h2>
-          <p className="mt-8 max-w-2xl text-lg leading-relaxed text-white/65">
-            Abi is an Information Systems student, digital product builder, frontend/web builder,
-            product thinker, and project manager. His work sits between software engineering, UX,
-            and project execution: designing the flow, building the interface, and making the final
-            output easy to understand.
+          <p className="mt-8 max-w-[620px] text-xl font-black uppercase leading-snug text-white sm:text-2xl">
+            {profile.headline}
           </p>
-          <div className="mt-7 flex flex-wrap gap-2">
-            {skills.slice(0, 7).map((skill) => (
-              <span key={skill} className="rounded-full border border-white/12 bg-white/[0.04] px-3 py-1.5 text-xs text-white/60">
-                {skill}
-              </span>
-            ))}
-          </div>
+          <p className="mt-5 max-w-[650px] text-base font-medium leading-relaxed text-white/72 sm:text-lg">
+            {profile.shortBio}
+          </p>
+          <p className="mt-5 max-w-[650px] text-base font-medium leading-relaxed text-white/62 sm:text-lg">
+            I enjoy working at the intersection of technology, design, and communication. For me, a good digital product is not only functional, but also easy to understand, visually confident, and meaningful for the people who use it.
+          </p>
         </motion.div>
+      </div>
+    </section>
+  );
+}
 
-        <motion.div
-          initial={{ y: 34, opacity: 0 }}
+function SectionHeading({ eyebrow, title, copy }) {
+  return (
+    <div className="grid gap-6 lg:grid-cols-[0.72fr_0.58fr] lg:items-end">
+      <motion.div
+        initial={{ y: 34, opacity: 0 }}
+        whileInView={{ y: 0, opacity: 1 }}
+        viewport={{ once: true, amount: 0.4 }}
+        transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <p className="font-mono text-[11px] uppercase tracking-[0.35em] text-[#ff6a00]">{eyebrow}</p>
+        <h2 className="mt-4 font-display text-[clamp(4.3rem,9vw,8rem)] leading-[0.84] text-white">
+          {title}
+        </h2>
+      </motion.div>
+      {copy && (
+        <motion.p
+          initial={{ y: 28, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.7, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
-          className="about-motion-panel group relative overflow-hidden border border-white/10 bg-white/[0.045] p-5 shadow-[0_30px_100px_rgba(0,0,0,0.35)] backdrop-blur-xl sm:p-7"
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.65, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+          className="max-w-xl text-lg leading-relaxed text-white/55"
         >
-          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-[#080808] to-transparent" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-[#080808] to-transparent" />
+          {copy}
+        </motion.p>
+      )}
+    </div>
+  );
+}
 
-          <div className="space-y-4">
-            {[0, 1].map((row) => (
-              <div key={row} className="about-marquee overflow-hidden py-1">
-                <div className={`about-marquee-track ${row === 1 ? "about-marquee-reverse" : ""}`}>
-                  {[...aboutCapabilities, ...aboutCapabilities].map(({ label, icon: Icon }, index) => (
-                    <div
-                      key={`${row}-${label}-${index}`}
-                      className="about-skill-card flex h-28 w-44 shrink-0 flex-col items-center justify-center border border-white/12 bg-black/28 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-md transition duration-300 group-hover:border-[#ff6a00]/45 group-hover:bg-[#ff6a00]/[0.055] sm:h-32 sm:w-52"
-                    >
-                      <Icon className="text-[#ff6a00]" size={27} />
-                      <p className="mt-4 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-white/62">
-                        {label}
-                      </p>
-                    </div>
-                  ))}
+function Education() {
+  return (
+    <section id="education" className="relative overflow-hidden bg-[#070707] px-5 py-24 text-white sm:px-10 lg:py-32">
+      <div className="cinema-grid absolute inset-0 opacity-20" />
+      <div className="relative mx-auto max-w-[1440px]">
+        <SectionHeading
+          eyebrow="Education"
+          title={<>EDU<br />CATION</>}
+          copy="Academic foundation and learning focus behind the way I design, build, and present digital products."
+        />
+        <div className="mt-14 grid gap-5 md:grid-cols-2">
+          {educationItems.map((item, index) => (
+            <motion.article
+              key={item.title}
+              initial={{ y: 36, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              whileHover={cardHover}
+              whileTap={{ scale: 0.99 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ delay: index * 0.06, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              className="border border-white/10 bg-white/[0.04] p-7 transition hover:border-[#ff6a00]/60 hover:bg-[#ff6a00]/[0.055]"
+            >
+              <div className="grid h-14 w-14 place-items-center bg-[#ff6a00] text-black">
+                <GraduationCap size={26} />
+              </div>
+              <p className="mt-8 font-mono text-[10px] font-bold uppercase tracking-[0.28em] text-[#ff6a00]">
+                {item.year} / {item.meta}
+              </p>
+              <h3 className="mt-4 font-display text-5xl leading-none text-white">{item.title}</h3>
+              <p className="mt-5 text-sm leading-relaxed text-white/58">{item.copy}</p>
+            </motion.article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function SkillsSection() {
+  return (
+    <section id="skills" className="relative overflow-hidden bg-[#030303] px-5 py-24 text-white sm:px-10 lg:py-32">
+      <div className="pointer-events-none absolute right-0 top-10 h-[520px] w-[520px] bg-[#ff6a00]/12 blur-[130px]" />
+      <div className="relative mx-auto max-w-[1440px]">
+        <SectionHeading
+          eyebrow="Skills"
+          title={<>SKILL<br />SET</>}
+          copy="A practical mix of engineering, product thinking, interface design, and execution skills."
+        />
+        <div className="mt-14 grid gap-5 lg:grid-cols-3">
+          {skillGroups.map((group, index) => (
+            <motion.article
+              key={group.title}
+              initial={{ y: 36, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              whileHover={cardHover}
+              whileTap={{ scale: 0.99 }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ delay: index * 0.06, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              className="border border-white/10 bg-white/[0.045] p-6"
+            >
+              <div className="mb-8 flex items-center justify-between">
+                <h3 className="font-display text-4xl text-white">{group.title}</h3>
+                <Code2 className="text-[#ff6a00]" size={24} />
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {group.items.map((item) => (
+                  <span key={item} className="rounded-full border border-white/12 bg-black/35 px-3 py-2 text-xs font-bold uppercase tracking-[0.14em] text-white/62">
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </motion.article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Experience() {
+  return (
+    <section id="experience" className="relative overflow-hidden bg-[#070707] px-5 py-24 text-white sm:px-10 lg:py-32">
+      <div className="relative mx-auto max-w-[1440px]">
+        <SectionHeading
+          eyebrow="Experience"
+          title={<>EXPER<br />IENCE</>}
+          copy="Roles and project contexts where I practice product delivery, communication, and hands-on implementation."
+        />
+        <div className="mt-14 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          {experienceItems.map((item, index) => (
+            <motion.article
+              key={item.role}
+              initial={{ y: 36, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              whileHover={cardHover}
+              whileTap={{ scale: 0.99 }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ delay: index * 0.06, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              className="group overflow-hidden border border-white/10 bg-[#0d0d0d]/90 transition hover:border-[#ff6a00]/60 hover:bg-[#ff6a00]/[0.045]"
+            >
+              <div className="relative aspect-[16/10] overflow-hidden bg-white/[0.04]">
+                <img
+                  src={img(item.seed, 900, 560)}
+                  alt={`${item.role} experience visual`}
+                  className="h-full w-full object-cover opacity-74 grayscale transition duration-700 group-hover:scale-105 group-hover:opacity-100 group-hover:grayscale-0"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/72 via-black/8 to-transparent" />
+                <div className="absolute bottom-4 left-4 grid h-11 w-11 place-items-center bg-[#ff6a00] text-black">
+                  <Briefcase size={20} />
                 </div>
               </div>
-            ))}
-          </div>
-
-          <div className="mt-8">
-            <span className="inline-flex border border-white/15 bg-black/35 px-4 py-2 font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-[#ff6a00] shadow-[0_12px_35px_rgba(0,0,0,0.25)]">
-              What I Do
-            </span>
-            <p className="mt-5 text-lg leading-relaxed text-white/66">
-              I connect product direction, interface design, and implementation into portfolio-ready digital work.
-            </p>
-          </div>
-        </motion.div>
+              <div className="p-6">
+                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.28em] text-[#ff6a00]">
+                  {item.year} / {item.place}
+                </p>
+                <h3 className="mt-4 font-display text-4xl leading-none text-white">{item.role}</h3>
+                <p className="mt-5 text-sm leading-relaxed text-white/58">{item.copy}</p>
+              </div>
+            </motion.article>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -509,6 +759,8 @@ function LifeJourney() {
                   key={item.title}
                   initial={{ y: 42, opacity: 0 }}
                   whileInView={{ y: 0, opacity: 1 }}
+                  whileHover={cardHover}
+                  whileTap={{ scale: 0.99 }}
                   viewport={{ once: true, amount: 0.3 }}
                   transition={{ duration: 0.7, delay: index * 0.04, ease: [0.22, 1, 0.36, 1] }}
                   className={`relative md:w-[48%] ${index % 2 === 0 ? "md:mr-auto" : "md:ml-auto"}`}
@@ -578,6 +830,8 @@ function FloatingProjects() {
               key={project.title}
               initial={{ y: 36, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
+              whileHover={cardHover}
+              whileTap={{ scale: 0.99 }}
               viewport={{ once: true, amount: 0.25 }}
               transition={{ delay: index * 0.06, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
               className="cur-grow group border border-white/10 bg-white/[0.045] p-4 transition duration-500 hover:border-[#ff6a00]/60 hover:bg-[#ff6a00]/[0.055]"
@@ -611,30 +865,32 @@ function FloatingProjects() {
   );
 }
 
-function ProjectProcess() {
+function Mission() {
   return (
-    <section id="process" className="relative overflow-hidden bg-[#070707] px-5 py-24 text-white sm:px-10 lg:py-32">
+    <section id="mission" className="relative overflow-hidden bg-[#070707] px-5 py-24 text-white sm:px-10 lg:py-32">
       <div className="pointer-events-none absolute left-0 top-16 h-[520px] w-[520px] bg-[#ff6a00]/10 blur-[130px]" />
       <div className="mx-auto max-w-[1440px]">
         <div className="grid gap-8 lg:grid-cols-[1fr_0.75fr] lg:items-end">
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.35em] text-[#ff6a00]">Behind The Work</p>
+            <p className="font-mono text-[11px] uppercase tracking-[0.35em] text-[#ff6a00]">Personal Mission</p>
             <h2 className="mt-4 font-display text-[5.6rem] leading-[0.82] text-white sm:text-[9rem]">
-              PROJECT<br /><span className="text-[#ff6a00]">PROCESS</span>
+              MY<br /><span className="text-[#ff6a00]">MISSION</span>
             </h2>
           </div>
           <p className="text-lg leading-relaxed text-white/55">
-            Instead of repeating the same project cards, this chapter shows the way each project is shaped:
-            from messy idea to usable interface, then into a case study people can understand.
+            A simple direction for the work I want to keep building: useful products, thoughtful interfaces,
+            clear storytelling, and steady growth through real projects.
           </p>
         </div>
 
         <div className="mt-14 grid gap-5 lg:grid-cols-4">
-          {projectMethods.map((method, index) => (
+          {missionItems.map((method, index) => (
             <motion.article
               key={method.title}
               initial={{ y: 36, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
+              whileHover={cardHover}
+              whileTap={{ scale: 0.99 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.06, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
               className="cur-grow group relative overflow-hidden border border-white/10 bg-white/[0.04] p-6 transition duration-500 hover:-translate-y-1 hover:border-[#ff6a00]/60 hover:bg-[#ff6a00]/[0.055]"
@@ -649,6 +905,121 @@ function ProjectProcess() {
                     {point}
                   </span>
                 ))}
+              </div>
+            </motion.article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Achievements() {
+  return (
+    <section id="achievements" className="relative overflow-hidden bg-[#030303] px-5 py-24 text-white sm:px-10 lg:py-32">
+      <div className="pointer-events-none absolute left-0 top-0 h-[520px] w-[520px] bg-[#ff6a00]/10 blur-[130px]" />
+      <div className="relative mx-auto max-w-[1440px]">
+        <SectionHeading
+          eyebrow="Achievements"
+          title={<>ACHIEVE<br />MENTS</>}
+          copy="A short record of things I have built, shipped, practiced, and shaped into presentable work."
+        />
+        <div className="mt-14 grid gap-5 lg:grid-cols-3">
+          {achievements.map((item, index) => (
+            <motion.article
+              key={item}
+              initial={{ y: 36, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              whileHover={cardHover}
+              whileTap={{ scale: 0.99 }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ delay: index * 0.06, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              className="border border-white/10 bg-white/[0.04] p-6 transition hover:border-[#ff6a00]/60 hover:bg-[#ff6a00]/[0.055]"
+            >
+              <div className="grid h-12 w-12 place-items-center bg-[#ff6a00] text-black">
+                <Award size={23} />
+              </div>
+              <p className="mt-8 font-mono text-[10px] font-bold uppercase tracking-[0.28em] text-[#ff6a00]">
+                Achievement {String(index + 1).padStart(2, "0")}
+              </p>
+              <p className="mt-4 text-base font-bold leading-relaxed text-white/76">{item}</p>
+            </motion.article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Certificates() {
+  return (
+    <section id="certificates" className="relative overflow-hidden bg-[#070707] px-5 py-24 text-white sm:px-10 lg:py-32">
+      <div className="cinema-grid absolute inset-0 opacity-18" />
+      <div className="relative mx-auto max-w-[1440px]">
+        <SectionHeading
+          eyebrow="Certificates"
+          title={<>CERTIFI<br />CATES</>}
+          copy="A clean space for certificate records. These can be replaced with exact certificate names whenever you are ready."
+        />
+        <div className="mt-14 grid gap-5 md:grid-cols-3">
+          {certificates.map((item, index) => (
+            <motion.article
+              key={item.title}
+              initial={{ y: 36, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              whileHover={cardHover}
+              whileTap={{ scale: 0.99 }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ delay: index * 0.06, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              className="border border-white/10 bg-[#0d0d0d]/90 p-6"
+            >
+              <BadgeCheck className="text-[#ff6a00]" size={28} />
+              <h3 className="mt-8 font-display text-4xl leading-none text-white">{item.title}</h3>
+              <p className="mt-4 font-mono text-[10px] font-bold uppercase tracking-[0.24em] text-white/45">
+                {item.issuer} / {item.year}
+              </p>
+            </motion.article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Gallery() {
+  return (
+    <section id="gallery" className="relative overflow-hidden bg-[#030303] px-5 py-24 text-white sm:px-10 lg:py-32">
+      <div className="relative mx-auto max-w-[1440px]">
+        <SectionHeading
+          eyebrow="Gallery"
+          title={<>VISUAL<br />GALLERY</>}
+          copy="A visual archive for product work, campus activities, design exploration, and portfolio moments."
+        />
+        <div className="mt-14 grid gap-4 md:grid-cols-3">
+          {galleryItems.map((item, index) => (
+            <motion.article
+              key={item.title}
+              initial={{ y: 36, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              whileHover={cardHover}
+              whileTap={{ scale: 0.99 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ delay: index * 0.04, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              className={`group relative overflow-hidden border border-white/10 bg-white/[0.04] ${
+                index === 0 || index === 5 ? "md:col-span-2" : ""
+              }`}
+            >
+              <img
+                src={img(item.seed, 1000, 680)}
+                alt={`${item.title} gallery visual`}
+                className="h-72 w-full object-cover opacity-75 grayscale transition duration-700 group-hover:scale-105 group-hover:opacity-100 group-hover:grayscale-0"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/82 via-black/12 to-transparent" />
+              <div className="absolute bottom-5 left-5 flex items-center gap-3">
+                <Camera className="text-[#ff6a00]" size={20} />
+                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.24em] text-white/80">
+                  {item.title}
+                </p>
               </div>
             </motion.article>
           ))}
@@ -743,13 +1114,19 @@ function Contact() {
 export default function PortfolioSite() {
   return (
     <div className="bg-[#050505] font-sans text-white">
+      <CursorGlow />
       <ScrollIndicator />
       <Header />
       <Hero />
       <About />
-      <LifeJourney />
+      <Mission />
+      <Education />
+      <SkillsSection />
+      <Experience />
       <FloatingProjects />
-      <ProjectProcess />
+      <Achievements />
+      <Certificates />
+      <Gallery />
       <Contact />
     </div>
   );
