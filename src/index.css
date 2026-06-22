@@ -180,7 +180,7 @@ body::after {
 .skill-showcase-card {
   --skill-accent: #ff6a00;
   --skill-accent-2: #ffc247;
-  --skill-accent-3: #ff3d81;
+  --skill-accent-3: #ff3d00;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.07),
     0 24px 90px rgba(0, 0, 0, 0.28);
@@ -193,15 +193,15 @@ body::after {
 }
 
 .skill-tone-design {
-  --skill-accent: #00d1ff;
-  --skill-accent-2: #9b5cff;
-  --skill-accent-3: #ff4fd8;
+  --skill-accent: #ff8a00;
+  --skill-accent-2: #ffcf5c;
+  --skill-accent-3: #ff5a1f;
 }
 
 .skill-tone-execution {
-  --skill-accent: #31f59b;
-  --skill-accent-2: #f8d84a;
-  --skill-accent-3: #ff6a00;
+  --skill-accent: #ff5a00;
+  --skill-accent-2: #ffb21e;
+  --skill-accent-3: #c94700;
 }
 
 .skill-marquee-panel {
@@ -270,15 +270,15 @@ body::after {
 }
 
 .skill-color-2 {
-  --tile-color: #ff4f8b;
+  --tile-color: #ff7a18;
 }
 
 .skill-color-3 {
-  --tile-color: #45e1ff;
+  --tile-color: #ffb000;
 }
 
 .skill-color-4 {
-  --tile-color: #a6ff4d;
+  --tile-color: #ffcf5c;
 }
 
 .skill-color-5 {
