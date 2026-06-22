@@ -220,6 +220,39 @@ const skillGroups = [
   { title: "Execution", items: ["Project Management", "Presentation", "Case Study Writing", "Team Coordination"] },
 ];
 
+const skillShowcases = [
+  {
+    title: "Development",
+    label: "What I Build",
+    tone: "skill-tone-dev",
+    copy: <>I ship <strong>fullstack web apps</strong>, portfolio systems, and clean interfaces that actually work.</>,
+    rows: [
+      ["React", "Django", "SQL", "Tailwind", "Motion", "Vite"],
+      ["Frontend", "Backend", "API", "Database", "Responsive", "Deploy"],
+    ],
+  },
+  {
+    title: "Design & Product",
+    label: "What I Think",
+    tone: "skill-tone-design",
+    copy: <>I turn problems into <strong>clear flows</strong>, product stories, and interfaces people can understand fast.</>,
+    rows: [
+      ["Figma", "UX", "Research", "Strategy", "Journey", "Wireframe"],
+      ["Testing", "Persona", "Story Map", "Prototype", "Design QA", "Pitch"],
+    ],
+  },
+  {
+    title: "Execution",
+    label: "How I Move",
+    tone: "skill-tone-execution",
+    copy: <>I keep projects moving with <strong>structured planning</strong>, team communication, and presentation-ready delivery.</>,
+    rows: [
+      ["PM", "Timeline", "Sprint", "Docs", "Brief", "Review"],
+      ["Team", "Deck", "Case Study", "Handoff", "Coordination", "Delivery"],
+    ],
+  },
+];
+
 const experienceItems = [
   {
     role: "Project Manager",
@@ -647,16 +680,35 @@ function Education() {
 
 function SkillsSection() {
   return (
-    <section id="skills" className="relative overflow-hidden bg-[#030303] px-5 py-24 text-white sm:px-10 lg:py-32">
-      <div className="pointer-events-none absolute right-0 top-10 h-[520px] w-[520px] bg-[#ff6a00]/12 blur-[130px]" />
+    <section id="skills" className="relative overflow-hidden bg-[#020202] px-5 py-24 text-white sm:px-10 lg:min-h-screen lg:py-32">
+      <div className="cinema-grid absolute inset-0 opacity-22" />
+      <div className="pointer-events-none absolute right-0 top-10 h-[520px] w-[520px] bg-[#ff6a00]/10 blur-[130px]" />
       <div className="relative mx-auto max-w-[1440px]">
-        <SectionHeading
-          eyebrow="Skills"
-          title={<>SKILL<br />SET</>}
-          copy="A practical mix of engineering, product thinking, interface design, and execution skills."
-        />
-        <div className="mt-14 grid gap-5 lg:grid-cols-3">
-          {skillGroups.map((group, index) => (
+        <div className="grid gap-8 lg:grid-cols-[0.7fr_0.7fr] lg:items-end lg:gap-16">
+          <motion.div
+            initial={{ y: 34, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            viewport={{ once: true, amount: 0.35 }}
+            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <p className="font-mono text-[11px] uppercase tracking-[0.58em] text-[#ff6a00]">Skills</p>
+            <h2 className="mt-5 font-display text-[clamp(5.6rem,11vw,10rem)] leading-[0.78] text-white">
+              SKILL<br />SET
+            </h2>
+          </motion.div>
+          <motion.p
+            initial={{ y: 28, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{ duration: 0.65, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+            className="max-w-2xl pb-3 text-xl font-semibold leading-relaxed text-white/52 lg:justify-self-end"
+          >
+            A practical mix of engineering, product thinking, interface design, and execution skills.
+          </motion.p>
+        </div>
+
+        <div className="mt-16 grid gap-5 lg:grid-cols-3">
+          {skillShowcases.map((group, index) => (
             <motion.article
               key={group.title}
               initial={{ y: 36, opacity: 0 }}
@@ -665,18 +717,40 @@ function SkillsSection() {
               whileTap={{ scale: 0.99 }}
               viewport={{ once: true, amount: 0.25 }}
               transition={{ delay: index * 0.06, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="border border-white/10 bg-white/[0.045] p-6"
+              className={`skill-showcase-card ${group.tone} group overflow-hidden border border-white/12 bg-[#0d0d0d]/82`}
             >
-              <div className="mb-8 flex items-center justify-between">
-                <h3 className="font-display text-4xl text-white">{group.title}</h3>
-                <Code2 className="text-[#ff6a00]" size={24} />
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {group.items.map((item) => (
-                  <span key={item} className="rounded-full border border-white/12 bg-black/35 px-3 py-2 text-xs font-bold uppercase tracking-[0.14em] text-white/62">
-                    {item}
-                  </span>
+              <div className="skill-marquee-panel border-b border-white/[0.07] px-5 py-6">
+                {group.rows.map((row, rowIndex) => (
+                  <div
+                    key={`${group.title}-${rowIndex}`}
+                    className={`skill-logo-row ${rowIndex % 2 === 1 ? "skill-logo-row-reverse" : ""}`}
+                  >
+                    <div className="skill-logo-track">
+                      {[...row, ...row, ...row].map((item, itemIndex) => (
+                        <span key={`${item}-${itemIndex}`} className={`skill-logo-tile skill-color-${itemIndex % 6}`}>
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 ))}
+              </div>
+              <div className="p-6 sm:p-7">
+                <div className="mb-7 flex items-start justify-between gap-5">
+                  <h3 className="font-display text-[2.65rem] leading-none text-white sm:text-5xl">{group.title}</h3>
+                  <Code2 className="mt-1 shrink-0 text-[#ff6a00]" size={25} />
+                </div>
+                <span className="inline-flex items-center gap-2 rounded-md border border-white/24 bg-white/[0.04] px-3 py-1.5 font-mono text-[11px] font-bold text-white/78 shadow-[0_10px_22px_rgba(0,0,0,0.28)]">
+                  <Code2 size={13} /> {group.label}
+                </span>
+                <p className="mt-5 text-lg leading-snug text-white/72">{group.copy}</p>
+                <div className="mt-6 flex flex-wrap gap-2">
+                  {skillGroups[index].items.map((item) => (
+                    <span key={item} className="rounded-full border border-white/70 px-3.5 py-2 text-[11px] font-black uppercase tracking-[0.16em] text-white/82">
+                      {item}
+                    </span>
+                  ))}
+                </div>
               </div>
             </motion.article>
           ))}

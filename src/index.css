@@ -177,6 +177,114 @@ body::after {
   border-radius: 1.25rem;
 }
 
+.skill-showcase-card {
+  --skill-accent: #ff6a00;
+  --skill-accent-2: #ffc247;
+  --skill-accent-3: #ff3d81;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    0 24px 90px rgba(0, 0, 0, 0.28);
+}
+
+.skill-tone-dev {
+  --skill-accent: #ff6a00;
+  --skill-accent-2: #ffd166;
+  --skill-accent-3: #ff3d00;
+}
+
+.skill-tone-design {
+  --skill-accent: #00d1ff;
+  --skill-accent-2: #9b5cff;
+  --skill-accent-3: #ff4fd8;
+}
+
+.skill-tone-execution {
+  --skill-accent: #31f59b;
+  --skill-accent-2: #f8d84a;
+  --skill-accent-3: #ff6a00;
+}
+
+.skill-marquee-panel {
+  position: relative;
+  display: grid;
+  gap: 1.1rem;
+  background:
+    radial-gradient(circle at 18% 0%, color-mix(in srgb, var(--skill-accent) 34%, transparent), transparent 28%),
+    radial-gradient(circle at 86% 12%, color-mix(in srgb, var(--skill-accent-2) 22%, transparent), transparent 34%),
+    linear-gradient(135deg, color-mix(in srgb, var(--skill-accent) 14%, transparent), rgba(255, 255, 255, 0.018) 44%, color-mix(in srgb, var(--skill-accent-3) 13%, transparent));
+  mask-image: linear-gradient(90deg, transparent 0%, #000 11%, #000 89%, transparent 100%);
+}
+
+.skill-logo-row {
+  overflow: hidden;
+}
+
+.skill-logo-track {
+  display: flex;
+  width: max-content;
+  gap: 0.85rem;
+  animation: skill-marquee-left 24s linear infinite;
+}
+
+.skill-logo-row-reverse .skill-logo-track {
+  animation-name: skill-marquee-right;
+  animation-duration: 28s;
+}
+
+.skill-logo-row:hover .skill-logo-track {
+  animation-play-state: paused;
+}
+
+.skill-logo-tile {
+  --tile-color: var(--skill-accent);
+  display: grid;
+  min-width: 6.2rem;
+  height: 4.25rem;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--tile-color) 72%, rgba(255, 255, 255, 0.42));
+  border-radius: 0.65rem;
+  background:
+    radial-gradient(circle at 24% 18%, color-mix(in srgb, var(--tile-color) 45%, transparent), transparent 34%),
+    linear-gradient(180deg, color-mix(in srgb, var(--tile-color) 18%, rgba(255, 255, 255, 0.08)), rgba(255, 255, 255, 0.02)),
+    rgba(0, 0, 0, 0.24);
+  color: color-mix(in srgb, var(--tile-color) 32%, white);
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-transform: uppercase;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 10px 24px rgba(0, 0, 0, 0.18),
+    0 0 22px color-mix(in srgb, var(--tile-color) 18%, transparent);
+  text-shadow: 0 0 18px color-mix(in srgb, var(--tile-color) 40%, transparent);
+}
+
+.skill-color-0 {
+  --tile-color: var(--skill-accent);
+}
+
+.skill-color-1 {
+  --tile-color: var(--skill-accent-2);
+}
+
+.skill-color-2 {
+  --tile-color: #ff4f8b;
+}
+
+.skill-color-3 {
+  --tile-color: #45e1ff;
+}
+
+.skill-color-4 {
+  --tile-color: #a6ff4d;
+}
+
+.skill-color-5 {
+  --tile-color: var(--skill-accent-3);
+}
+
 @keyframes about-marquee-left {
   from {
     transform: translateX(0);
@@ -189,6 +297,24 @@ body::after {
 @keyframes about-marquee-right {
   from {
     transform: translateX(calc(-50% - 0.5rem));
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes skill-marquee-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-33.333% - 0.57rem));
+  }
+}
+
+@keyframes skill-marquee-right {
+  from {
+    transform: translateX(calc(-33.333% - 0.57rem));
   }
   to {
     transform: translateX(0);
@@ -239,7 +365,8 @@ body::after {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .about-marquee-track {
+  .about-marquee-track,
+  .skill-logo-track {
     animation: none !important;
     transform: translateX(0) !important;
   }
