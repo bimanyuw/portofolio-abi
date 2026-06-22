@@ -179,8 +179,6 @@ body::after {
 
 .skill-showcase-card {
   --skill-accent: #ff6a00;
-  --skill-accent-2: #ffc247;
-  --skill-accent-3: #ff3d00;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.07),
     0 24px 90px rgba(0, 0, 0, 0.28);
@@ -188,20 +186,14 @@ body::after {
 
 .skill-tone-dev {
   --skill-accent: #ff6a00;
-  --skill-accent-2: #ffd166;
-  --skill-accent-3: #ff3d00;
 }
 
 .skill-tone-design {
-  --skill-accent: #ff8a00;
-  --skill-accent-2: #ffcf5c;
-  --skill-accent-3: #ff5a1f;
+  --skill-accent: #ff6a00;
 }
 
 .skill-tone-execution {
-  --skill-accent: #ff5a00;
-  --skill-accent-2: #ffb21e;
-  --skill-accent-3: #c94700;
+  --skill-accent: #ff6a00;
 }
 
 .skill-marquee-panel {
@@ -209,9 +201,8 @@ body::after {
   display: grid;
   gap: 1.1rem;
   background:
-    radial-gradient(circle at 18% 0%, color-mix(in srgb, var(--skill-accent) 34%, transparent), transparent 28%),
-    radial-gradient(circle at 86% 12%, color-mix(in srgb, var(--skill-accent-2) 22%, transparent), transparent 34%),
-    linear-gradient(135deg, color-mix(in srgb, var(--skill-accent) 14%, transparent), rgba(255, 255, 255, 0.018) 44%, color-mix(in srgb, var(--skill-accent-3) 13%, transparent));
+    radial-gradient(circle at 18% 0%, rgba(255, 106, 0, 0.18), transparent 28%),
+    linear-gradient(135deg, rgba(255, 106, 0, 0.08), rgba(255, 255, 255, 0.018) 44%, rgba(255, 106, 0, 0.05));
   mask-image: linear-gradient(90deg, transparent 0%, #000 11%, #000 89%, transparent 100%);
 }
 
@@ -236,53 +227,40 @@ body::after {
 }
 
 .skill-logo-tile {
-  --tile-color: var(--skill-accent);
   display: grid;
-  min-width: 6.2rem;
-  height: 4.25rem;
+  min-width: 10rem;
+  height: 5.75rem;
   place-items: center;
-  border: 1px solid color-mix(in srgb, var(--tile-color) 72%, rgba(255, 255, 255, 0.42));
-  border-radius: 0.65rem;
-  background:
-    radial-gradient(circle at 24% 18%, color-mix(in srgb, var(--tile-color) 45%, transparent), transparent 34%),
-    linear-gradient(180deg, color-mix(in srgb, var(--tile-color) 18%, rgba(255, 255, 255, 0.08)), rgba(255, 255, 255, 0.02)),
-    rgba(0, 0, 0, 0.24);
-  color: color-mix(in srgb, var(--tile-color) 32%, white);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 1.25rem;
+  background: rgba(9, 9, 9, 0.88);
+  color: rgba(255, 255, 255, 0.9);
   font-family: "DM Sans", sans-serif;
   font-size: 0.72rem;
   font-weight: 900;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.18em;
   text-align: center;
   text-transform: uppercase;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    0 10px 24px rgba(0, 0, 0, 0.18),
-    0 0 22px color-mix(in srgb, var(--tile-color) 18%, transparent);
-  text-shadow: 0 0 18px color-mix(in srgb, var(--tile-color) 40%, transparent);
+    0 10px 24px rgba(0, 0, 0, 0.18);
+  transition:
+    background-color 0.28s ease,
+    border-color 0.28s ease,
+    box-shadow 0.28s ease,
+    color 0.28s ease,
+    transform 0.28s ease;
 }
 
-.skill-color-0 {
-  --tile-color: var(--skill-accent);
-}
-
-.skill-color-1 {
-  --tile-color: var(--skill-accent-2);
-}
-
-.skill-color-2 {
-  --tile-color: #ff7a18;
-}
-
-.skill-color-3 {
-  --tile-color: #ffb000;
-}
-
-.skill-color-4 {
-  --tile-color: #ffcf5c;
-}
-
-.skill-color-5 {
-  --tile-color: var(--skill-accent-3);
+.skill-logo-tile:hover {
+  border-color: #ff6a00;
+  background: #ff6a00;
+  color: #050505;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    0 0 34px rgba(255, 106, 0, 0.38),
+    0 18px 36px rgba(0, 0, 0, 0.34);
+  transform: translateY(-2px);
 }
 
 @keyframes about-marquee-left {

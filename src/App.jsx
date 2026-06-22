@@ -727,7 +727,7 @@ function SkillsSection() {
                   >
                     <div className="skill-logo-track">
                       {[...row, ...row, ...row].map((item, itemIndex) => (
-                        <span key={`${item}-${itemIndex}`} className={`skill-logo-tile skill-color-${itemIndex % 6}`}>
+                        <span key={`${item}-${itemIndex}`} className="skill-logo-tile">
                           {item}
                         </span>
                       ))}
