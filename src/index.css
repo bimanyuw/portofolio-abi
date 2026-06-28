@@ -20,6 +20,10 @@ body {
   background: var(--dark);
 }
 
+section[id] {
+  scroll-margin-top: 112px;
+}
+
 @media (min-width: 1024px) {
   html,
   body {

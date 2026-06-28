@@ -1186,6 +1186,30 @@ function Contact() {
 }
 
 export default function PortfolioSite() {
+  useEffect(() => {
+    const scrollToHash = () => {
+      const id = window.location.hash.slice(1);
+      if (!id) return;
+
+      const target = document.getElementById(id);
+      if (target) {
+        target.scrollIntoView({ block: "start", behavior: "auto" });
+      }
+    };
+
+    window.history.scrollRestoration = "manual";
+    const frame = window.requestAnimationFrame(scrollToHash);
+    const timeout = window.setTimeout(scrollToHash, 250);
+
+    window.addEventListener("hashchange", scrollToHash);
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.clearTimeout(timeout);
+      window.removeEventListener("hashchange", scrollToHash);
+    };
+  }, []);
+
   return (
     <div className="bg-[#050505] font-sans text-white">
       <CursorGlow />
